@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   entry: './src/index.js',
   module: {
@@ -17,5 +19,6 @@ module.exports = {
   },
   output: {
     filename: 'combiner.js',
+    path: path.join(__dirname, 'docs/assets/js')
   },
 };
