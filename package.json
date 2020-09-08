@@ -1,0 +1,45 @@
+{
+  "name": "combinerjs",
+  "version": "0.0.1",
+  "private": true,
+  "main": "index.js",
+  "license": "MIT",
+  "homepage": "https://suhrr.github.io/combinerjs/",
+  "dependencies": {
+    "hammerjs": "^2.0.8",
+    "webrtc-adapter": "^7.7.0"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "build-dev": "webpack --config webpack.dev.js",
+    "start": "webpack-dev-server --hot --inline --watch-content-base --content-base docs/ --open-page index.html --config webpack.dev.js",
+    "deploy": "gh-pages -d sample",
+    "test": "jest"
+  },
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
+    }
+  },
+  "jest": {
+    "setupFiles": [
+      "jest-canvas-mock"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-jest": "^26.0.1",
+    "babel-loader": "^8.0.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "jest": "^26.0.1",
+    "jest-canvas-mock": "^2.2.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.2.2"
+  }
+}
