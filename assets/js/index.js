@@ -5,19 +5,23 @@ window.onload = function () {
   var isFrontCamera = false;
 
   combiner = new Combiner('./assets/img/mask.png');
+  init();
 
-  const callBack = combiner.connect();
-  callBack
-    .then(function () {
-      isLoaded = true;
-      _update();
-    })
-    .catch(function (err) {
-      alert(err.message);
-    });
+  function init() {
+    const callBack = combiner.connect(isFrontCamera);
+    callBack
+      .then(function () {
+        isLoaded = true;
+        _update();
+      })
+      .catch(function (err) {
+        alert(err.message);
+      });
+  }
 
   function _update() {
-    combiner.update(isFrontCamera);
+    if (!isLoaded) return;
+    combiner.update();
     requestAnimationFrame(_update);
   }
 
@@ -40,6 +44,8 @@ window.onload = function () {
 
   changeBtn.addEventListener('click', () => {
     if (!isLoaded) return;
+    isLoaded = false;
     isFrontCamera = !isFrontCamera;
+    init();
   });
 };
