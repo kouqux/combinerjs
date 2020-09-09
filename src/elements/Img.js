@@ -8,10 +8,12 @@ export class Img extends CanvasObject {
    * @param {CanvasRenderingContext2D} ctx 2D コンテキスト
    * @param {number} x X 座標
    * @param {number} y Y 座標
+   * @param {number | null} w width nullの場合オリジナル
+   * @param {number | null} h height nullの場合オリジナル
    * @param {string} imagePath 画像パス
    */
-  constructor(ctx, x, y, imagePath) {
-    super(ctx, x, y, 0, 0);
+  constructor(ctx, x, y, w = null, h = null, imagePath) {
+    super(ctx, x, y, w, h);
     /**
      * 角度
      * @type {number}
@@ -22,8 +24,8 @@ export class Img extends CanvasObject {
     this.image.src = imagePath;
     this.image.onload = () => {
       this.isLoaded = true;
-      this.width = this.image.width;
-      this.height = this.image.height;
+      this.width = w ? w : this.image.width;
+      this.height = h ? h : this.image.height;
     };
 
     this.scaleInfo = {
