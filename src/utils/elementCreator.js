@@ -56,11 +56,8 @@ function createImg() {
 }
 
 function addCommonStyle(ele) {
-  // ele.style.top = 0;
-  // ele.style.left = 0;
   ele.style.width = '100%';
   ele.style.height = '100%';
   ele.style.position = 'absolute';
-  // ele.style.margin = 'auto';
   return ele;
 }
