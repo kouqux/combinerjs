@@ -14,7 +14,6 @@ combiner = new Combiner('./assets/img/mask.png');
 const callBack = combiner.connect(isFrontCamera);
 callBack
   .then(function () {
-    isLoaded = true;
     _update();
   })
   .catch(function (err) {
