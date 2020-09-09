@@ -8,12 +8,19 @@ import { PARENT_ID } from './config/define';
 export class Combiner {
   /**
    * @constructor
-   * @param {CanvasRenderingContext2D} ctx 2D コンテキスト
-   * @param {number} x X 座標
-   * @param {number} y Y 座標
    * @param {string} imagePath 画像パス
+   * @param {number | null} imageX image x
+   * @param {number | null} imageY image y
+   * @param {number | null} imageW image width
+   * @param {number | null} imageH image height
    */
-  constructor(imagePath) {
+  constructor(
+    imagePath,
+    imageX = null,
+    imageY = null,
+    imageW = null,
+    imageH = null
+  ) {
     /** @param {HTMLVideoElement} */
     this.videoEle;
     /** @param {HTMLCanvasElement} */
@@ -39,10 +46,10 @@ export class Combiner {
     /** @param {boolen} */
     this.isCombine = false;
 
-    this._init(imagePath);
+    this._init(imagePath, imageX, imageY, imageW, imageH);
   }
 
-  _init(imagePath) {
+  _init(imagePath, imageX, imageY, imageW, imageH) {
     const eles = createElement();
     this.videoEle = eles.videoEle;
     this.canvasEle = eles.canvasEle;
@@ -58,7 +65,9 @@ export class Combiner {
     this.canvasEle.height = this.height;
 
     // image
-    this.img = new Img(this.ctx, this.width / 2, this.height / 2, imagePath);
+    imageX = imageX ? imageX : this.width / 2;
+    imageY = imageY ? imageY : this.height / 2;
+    this.img = new Img(this.ctx, imageX, imageY, imageW, imageH, imagePath);
     this.imgAction = new ImgAction(this.canvasEle, this.img);
 
     // camera
