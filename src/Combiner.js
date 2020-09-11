@@ -72,7 +72,7 @@ export class Combiner {
 
     // camera
     this.camera = new Camera(this.ctx, this.width, this.height, this.videoEle);
-    this.cameraAction = new CameraAction(this.camera, this.width, this.height);
+    this.cameraAction = new CameraAction(this.camera);
   }
 
   /**
