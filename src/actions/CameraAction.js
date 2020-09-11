@@ -7,7 +7,7 @@ export class CameraAction {
    * @constructor
    * @param {Camera}
    */
-  constructor(camera, w, h) {
+  constructor(camera) {
     this.camera = camera;
 
     this.stream = null;
@@ -20,8 +20,8 @@ export class CameraAction {
         facingMode: {
           exact: 'environment',
         },
-        // width: w,
-        // height: h,
+        width: { ideal: 4096 },
+        height: { ideal: 2160 },
       },
       audio: false,
     };
