@@ -82,7 +82,11 @@ export class Combiner {
    */
   connect(isFrontCamera = false) {
     this.cameraAction.setIsFrontCamera(isFrontCamera);
-    return this.cameraAction.connect();
+    const promise = this.cameraAction.connect();
+    promise.catch(() => {
+      this.imgAction.freeze();
+    });
+    return promise;
   }
 
   /**
