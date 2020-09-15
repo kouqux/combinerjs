@@ -1,3 +1,4 @@
+import 'webrtc-adapter';
 import { Combiner } from './Combiner';
 
 if (typeof window !== 'undefined') {
