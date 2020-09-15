@@ -1,7 +1,5 @@
 'use strict';
 
-import adapter from 'webrtc-adapter';
-
 export class CameraAction {
   /**
    * @constructor
