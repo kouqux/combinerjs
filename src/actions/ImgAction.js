@@ -86,11 +86,7 @@ export class ImgAction {
         this.canPinch = false;
       }
       if (!this.canRotate) return;
-      if (diff > 0) {
-        this.img.changeAngle(-1);
-      } else if (diff < 0) {
-        this.img.changeAngle(1);
-      }
+      this.img.changeAngle(this.currentRotation);
     });
 
     this.manager.on('rotateend', (e) => {

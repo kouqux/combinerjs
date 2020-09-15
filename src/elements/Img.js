@@ -92,7 +92,7 @@ export class Img extends CanvasObject {
    * @param {Number} angle
    */
   changeAngle(angle) {
-    this.angle = this.angle + angle;
+    this.angle = angle;
     this.update();
   }
 
