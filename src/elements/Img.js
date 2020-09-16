@@ -8,24 +8,29 @@ export class Img extends CanvasObject {
    * @param {CanvasRenderingContext2D} ctx 2D コンテキスト
    * @param {number} x X 座標
    * @param {number} y Y 座標
-   * @param {number | null} w width nullの場合オリジナル
-   * @param {number | null} h height nullの場合オリジナル
+   * @param {scale} scale
    * @param {string} imagePath 画像パス
    */
-  constructor(ctx, x, y, w = null, h = null, imagePath) {
-    super(ctx, x, y, w, h);
+  constructor(ctx, x, y, imagePath) {
+    super(ctx, x, y, null, null);
+
     /**
      * 角度
      * @type {number}
      */
     this.angle = 0;
 
+    /**
+     * @type {number}
+     */
+    this.defaultScale = 1;
+
     this.image = new Image();
     this.image.src = imagePath;
     this.image.onload = () => {
       this.isLoaded = true;
-      this.width = w ? w : this.image.width;
-      this.height = h ? h : this.image.height;
+      this.width = this.image.width * this.defaultScale;
+      this.height = this.image.height * this.defaultScale;
     };
 
     this.scaleInfo = {
@@ -45,9 +50,30 @@ export class Img extends CanvasObject {
 
     /**
      * 読み込み済みフラグ
-     * @type {boolean}
+     * @param {boolean}
      */
     this.isLoaded = false;
+  }
+
+  /**
+   * 画像のサイズを最適化する
+   * @param {number} width
+   * @param {number} height
+   */
+  optimizeSize(width, height) {
+    if (width > height) {
+      this.defaultScale = Math.round((height / width) * 10) / 10;
+    } else {
+      this.defaultScale = Math.round((width / height) * 10) / 10;
+    }
+  }
+
+  /**
+   * change defaultScale
+   * @param {number} defaultScale
+   */
+  orientation() {
+    this.update(this.position.y, this.position.x);
   }
 
   /**
