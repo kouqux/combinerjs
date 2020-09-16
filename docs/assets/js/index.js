@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
   const actionBtn = document.getElementById('actionBtn');
   const changeBtn = document.getElementById('changeBtn');
   let isLoaded = false;
@@ -12,17 +12,14 @@ window.onload = function() {
    * initialize
    */
   function init() {
-    const combinerEle = document.getElementById('combiner');
-    const scale = combinerEle.clientHeight / combinerEle.clientWidth;
-
-    combiner = new Combiner('./assets/img/mask.png', null, null, scale);
+    combiner = new Combiner('./assets/img/mask.png', null, null);
     const callBack = combiner.connect(isFrontCamera);
     callBack
       .then(() => {
         isLoaded = true;
         _update();
       })
-      .catch(err => {
+      .catch((err) => {
         alert(err.message);
       });
   }

@@ -11,7 +11,7 @@ export class Img extends CanvasObject {
    * @param {scale} scale
    * @param {string} imagePath 画像パス
    */
-  constructor(ctx, x, y, scale = 1, imagePath) {
+  constructor(ctx, x, y, imagePath) {
     super(ctx, x, y, null, null);
 
     /**
@@ -23,7 +23,7 @@ export class Img extends CanvasObject {
     /**
      * @type {number}
      */
-    this.defaultScale = scale;
+    this.defaultScale = 1;
 
     this.image = new Image();
     this.image.src = imagePath;
@@ -37,7 +37,7 @@ export class Img extends CanvasObject {
       value: 1.0,
       amount: 0.01,
       max: 2,
-      min: 0.5
+      min: 0.5,
     };
 
     this.dragInfo = {
@@ -45,14 +45,27 @@ export class Img extends CanvasObject {
       startX: 0,
       startY: 0,
       diffX: 0,
-      diffY: 0
+      diffY: 0,
     };
 
     /**
      * 読み込み済みフラグ
-     * @type {boolean}
+     * @param {boolean}
      */
     this.isLoaded = false;
+  }
+
+  /**
+   * 画像のサイズを最適化する
+   * @param {number} width
+   * @param {number} height
+   */
+  optimizeSize(width, height) {
+    if (width > height) {
+      this.defaultScale = Math.round((height / width) * 10) / 10;
+    } else {
+      this.defaultScale = Math.round((width / height) * 10) / 10;
+    }
   }
 
   /**

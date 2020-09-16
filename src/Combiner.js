@@ -12,7 +12,7 @@ export class Combiner {
    * @param {number | null} imageX image x
    * @param {number | null} imageY image y
    */
-  constructor(imagePath, imageX = null, imageY = null, imageScale = 1) {
+  constructor(imagePath, imageX = null, imageY = null) {
     /** @param {HTMLVideoElement} */
     this.videoEle;
     /** @param {HTMLCanvasElement} */
@@ -38,10 +38,10 @@ export class Combiner {
     /** @param {boolen} */
     this.isCombine = false;
 
-    this._init(imagePath, imageX, imageY, imageScale);
+    this._init(imagePath, imageX, imageY);
   }
 
-  _init(imagePath, imageX, imageY, imageScale) {
+  _init(imagePath, imageX, imageY) {
     // crate html elements
     const eles = createElement();
     this.videoEle = eles.videoEle;
@@ -51,12 +51,13 @@ export class Combiner {
     this.ctx = this.canvasEle.getContext('2d');
 
     // 親要素の横縦幅をセット
-    this._setSize();
+    const size = this._setSize();
 
     // image
     imageX = imageX ? imageX : this.width / 2;
     imageY = imageY ? imageY : this.height / 2;
-    this.img = new Img(this.ctx, imageX, imageY, imageScale, imagePath);
+    this.img = new Img(this.ctx, imageX, imageY, imagePath);
+    this.img.optimizeSize(size.width, size.height);
     this.imgAction = new ImgAction(this.canvasEle, this.img);
 
     // camera
@@ -64,20 +65,31 @@ export class Combiner {
     this.cameraAction = new CameraAction(this.camera);
   }
 
+  /**
+   * set canvas size to parent element size.
+   */
   _setSize() {
     const parentEle = document.getElementById(PARENT_ID);
     this._setWidth(parentEle.clientWidth);
     this._setHeight(parentEle.clientHeight);
     return {
       width: parentEle.clientWidth,
-      height: parentEle.clientHeight
+      height: parentEle.clientHeight,
     };
   }
 
+  /**
+   * set canvas width
+   * @param {number} width
+   */
   _setWidth(width) {
     this.width = width;
     this.canvasEle.width = this.width;
   }
+  /**
+   * set canvas height
+   * @param {number} height
+   */
   _setHeight(height) {
     this.height = height;
     this.canvasEle.height = this.height;
@@ -131,7 +143,7 @@ export class Combiner {
     setTimeout(() => {
       // ラグがあるため
       const size = this._setSize();
-      this.img.orientation();
+      this.img.optimizeSize(size.width, size.height);
     }, 100);
   }
 }
