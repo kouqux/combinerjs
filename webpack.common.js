@@ -19,6 +19,6 @@ module.exports = {
   },
   output: {
     filename: 'combiner.js',
-    path: path.join(__dirname, 'docs/assets/js')
+    path: path.join(__dirname, 'docs/')
   },
 };
