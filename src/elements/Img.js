@@ -8,31 +8,36 @@ export class Img extends CanvasObject {
    * @param {CanvasRenderingContext2D} ctx 2D コンテキスト
    * @param {number} x X 座標
    * @param {number} y Y 座標
-   * @param {number | null} w width nullの場合オリジナル
-   * @param {number | null} h height nullの場合オリジナル
+   * @param {scale} scale
    * @param {string} imagePath 画像パス
    */
-  constructor(ctx, x, y, w = null, h = null, imagePath) {
-    super(ctx, x, y, w, h);
+  constructor(ctx, x, y, scale = 1, imagePath) {
+    super(ctx, x, y, null, null);
+
     /**
      * 角度
      * @type {number}
      */
     this.angle = 0;
 
+    /**
+     * @type {number}
+     */
+    this.defaultScale = scale;
+
     this.image = new Image();
     this.image.src = imagePath;
     this.image.onload = () => {
       this.isLoaded = true;
-      this.width = w ? w : this.image.width;
-      this.height = h ? h : this.image.height;
+      this.width = this.image.width * this.defaultScale;
+      this.height = this.image.height * this.defaultScale;
     };
 
     this.scaleInfo = {
       value: 1.0,
       amount: 0.01,
       max: 2,
-      min: 0.5,
+      min: 0.5
     };
 
     this.dragInfo = {
@@ -40,7 +45,7 @@ export class Img extends CanvasObject {
       startX: 0,
       startY: 0,
       diffX: 0,
-      diffY: 0,
+      diffY: 0
     };
 
     /**
@@ -48,6 +53,14 @@ export class Img extends CanvasObject {
      * @type {boolean}
      */
     this.isLoaded = false;
+  }
+
+  /**
+   * change defaultScale
+   * @param {number} defaultScale
+   */
+  orientation() {
+    this.update(this.position.y, this.position.x);
   }
 
   /**

@@ -11,16 +11,8 @@ export class Combiner {
    * @param {string} imagePath 画像パス
    * @param {number | null} imageX image x
    * @param {number | null} imageY image y
-   * @param {number | null} imageW image width
-   * @param {number | null} imageH image height
    */
-  constructor(
-    imagePath,
-    imageX = null,
-    imageY = null,
-    imageW = null,
-    imageH = null
-  ) {
+  constructor(imagePath, imageX = null, imageY = null, imageScale = 1) {
     /** @param {HTMLVideoElement} */
     this.videoEle;
     /** @param {HTMLCanvasElement} */
@@ -46,10 +38,11 @@ export class Combiner {
     /** @param {boolen} */
     this.isCombine = false;
 
-    this._init(imagePath, imageX, imageY, imageW, imageH);
+    this._init(imagePath, imageX, imageY, imageScale);
   }
 
-  _init(imagePath, imageX, imageY, imageW, imageH) {
+  _init(imagePath, imageX, imageY, imageScale) {
+    // crate html elements
     const eles = createElement();
     this.videoEle = eles.videoEle;
     this.canvasEle = eles.canvasEle;
@@ -58,21 +51,36 @@ export class Combiner {
     this.ctx = this.canvasEle.getContext('2d');
 
     // 親要素の横縦幅をセット
-    const parentEle = document.getElementById(PARENT_ID);
-    this.width = parentEle.clientWidth;
-    this.height = parentEle.clientHeight;
-    this.canvasEle.width = this.width;
-    this.canvasEle.height = this.height;
+    this._setSize();
 
     // image
     imageX = imageX ? imageX : this.width / 2;
     imageY = imageY ? imageY : this.height / 2;
-    this.img = new Img(this.ctx, imageX, imageY, imageW, imageH, imagePath);
+    this.img = new Img(this.ctx, imageX, imageY, imageScale, imagePath);
     this.imgAction = new ImgAction(this.canvasEle, this.img);
 
     // camera
     this.camera = new Camera(this.ctx, this.width, this.height, this.videoEle);
     this.cameraAction = new CameraAction(this.camera);
+  }
+
+  _setSize() {
+    const parentEle = document.getElementById(PARENT_ID);
+    this._setWidth(parentEle.clientWidth);
+    this._setHeight(parentEle.clientHeight);
+    return {
+      width: parentEle.clientWidth,
+      height: parentEle.clientHeight
+    };
+  }
+
+  _setWidth(width) {
+    this.width = width;
+    this.canvasEle.width = this.width;
+  }
+  _setHeight(height) {
+    this.height = height;
+    this.canvasEle.height = this.height;
   }
 
   /**
@@ -117,5 +125,13 @@ export class Combiner {
     this.imgEle.style.display = 'none';
     this.isCombine = false;
     this.imgAction.unfreeze();
+  }
+
+  resize() {
+    setTimeout(() => {
+      // ラグがあるため
+      const size = this._setSize();
+      this.img.orientation();
+    }, 100);
   }
 }
