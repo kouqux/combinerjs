@@ -1,30 +1,24 @@
-window.onload = function() {
+window.onload = function () {
   const actionBtn = document.getElementById('actionBtn');
   const changeBtn = document.getElementById('changeBtn');
   let isLoaded = false;
-  let isFrontCamera = false;
-  let combiner;
+  var isFrontCamera = false;
 
   /** install image */
+  combiner = new Combiner('./assets/img/mask.png');
   init();
 
   /**
    * initialize
    */
   function init() {
-    /*
-    const combinerEle = document.getElementById('combiner');
-    const scale = combinerEle.clientHeight / combinerEle.clientWidth;
-    */
-
-    combiner = new Combiner('./assets/img/mask.png', null, null);
     const callBack = combiner.connect(isFrontCamera);
     callBack
-      .then(() => {
+      .then(function () {
         isLoaded = true;
         _update();
       })
-      .catch(err => {
+      .catch(function (err) {
         alert(err.message);
       });
   }
@@ -38,7 +32,7 @@ window.onload = function() {
     requestAnimationFrame(_update);
   }
 
-  actionBtn.addEventListener('click', () => {
+  actionBtn.addEventListener('click', function () {
     if (!isLoaded) return;
     if (actionBtn.getAttribute('data-isShoot') == '0') {
       // Combining photo and video
@@ -63,9 +57,5 @@ window.onload = function() {
     isLoaded = false;
     isFrontCamera = !isFrontCamera;
     init();
-  });
-
-  window.addEventListener('orientationchange', () => {
-    combiner.resize();
   });
 };
