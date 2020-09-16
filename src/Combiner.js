@@ -144,6 +144,8 @@ export class Combiner {
       // ラグがあるため
       const size = this._setSize();
       this.img.optimizeSize(size.width, size.height);
+      this.camera.setWidth(size.width);
+      this.camera.setHeight(size.height);
     }, 100);
   }
 }

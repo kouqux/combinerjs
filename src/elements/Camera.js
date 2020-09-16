@@ -21,6 +21,21 @@ export class Camera extends CanvasObject {
   }
 
   /**
+   * set width
+   * @param {number} width
+   */
+  setWidth(width) {
+    this.width = width;
+  }
+  /**
+   * set height
+   * @param {number} height
+   */
+  setHeight(height) {
+    this.height = height;
+  }
+
+  /**
    * カメラストリームをセットする
    * @param {*} stream
    */
