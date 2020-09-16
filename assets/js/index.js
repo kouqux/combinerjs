@@ -16,7 +16,7 @@ window.onload = function() {
     const scale = combinerEle.clientHeight / combinerEle.clientWidth;
 
     combiner = new Combiner('./assets/img/mask.png', null, null, scale);
-    /*const callBack = combiner.connect(isFrontCamera);
+    const callBack = combiner.connect(isFrontCamera);
     callBack
       .then(() => {
         isLoaded = true;
@@ -24,7 +24,7 @@ window.onload = function() {
       })
       .catch(err => {
         alert(err.message);
-      });*/
+      });
   }
 
   /**
