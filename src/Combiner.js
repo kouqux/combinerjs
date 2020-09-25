@@ -46,8 +46,9 @@ export class Combiner {
     const eles = createElement();
     this.videoEle = eles.videoEle;
     this.canvasEle = eles.canvasEle;
+    this.canvasEle.width = eles.areaEle.clientWidth;
+    this.canvasEle.height = eles.areaEle.clientHeight;
     this.imgEle = eles.imgEle;
-
     this.ctx = this.canvasEle.getContext('2d');
 
     // 親要素の横縦幅をセット
