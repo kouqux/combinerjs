@@ -17,6 +17,8 @@ export class Combiner {
     this.videoEle;
     /** @param {HTMLCanvasElement} */
     this.canvasEle;
+    /** @param {HTMLCanvasElement} */
+    this.hiddenCanvasEle;
     /** @param {HTMLImageElement} */
     this.imgEle;
 
@@ -48,6 +50,7 @@ export class Combiner {
     this.canvasEle = eles.canvasEle;
     this.canvasEle.width = eles.areaEle.clientWidth;
     this.canvasEle.height = eles.areaEle.clientHeight;
+    this.hiddenCanvasEle = eles.hiddenCanvasEle;
     this.imgEle = eles.imgEle;
     this.ctx = this.canvasEle.getContext('2d');
 
@@ -148,5 +151,49 @@ export class Combiner {
       this.camera.setWidth(size.width);
       this.camera.setHeight(size.height);
     }, 100);
+  }
+
+  /**
+   * get Base64
+   * @param {number} width Resizeing width
+   * @param {number*} height Resizeing height
+   */
+  getBase64(width = null, height = null) {
+    const promise = new Promise((resolve) => {
+      const base64 = this.canvasEle.toDataURL('image/jpeg');
+
+      if (width === null || height === null) {
+        // orignal size
+        resolve(base64);
+      }
+
+      this.hiddenCanvasEle.width = width;
+      this.hiddenCanvasEle.height = height;
+      const scale = Math.min(
+        this.hiddenCanvasEle.width / this.canvasEle.width,
+        this.hiddenCanvasEle.height / this.canvasEle.height
+      );
+
+      const x =
+        this.hiddenCanvasEle.width / 2 - (this.canvasEle.width / 2) * scale;
+      const y =
+        this.hiddenCanvasEle.height / 2 - (this.canvasEle.height / 2) * scale;
+
+      const ctx = this.hiddenCanvasEle.getContext('2d');
+      const img = new Image();
+      img.src = base64;
+      img.onload = () => {
+        // resize
+        ctx.drawImage(
+          img,
+          x,
+          y,
+          this.canvasEle.width * scale,
+          this.canvasEle.height * scale
+        );
+        resolve(this.hiddenCanvasEle.toDataURL('image/jpeg'));
+      };
+    });
+    return promise;
   }
 }

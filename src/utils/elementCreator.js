@@ -5,6 +5,7 @@ export function createElement() {
     areaEle: createDivArea(),
     videoEle: createVideo(),
     canvasEle: createCanvas(),
+    hiddenCanvasEle: createHiddenCanvas(),
     imgEle: createImg(),
   };
 }
@@ -40,6 +41,17 @@ function createCanvas() {
 
   ele = addCommonStyle(ele);
   ele.style.zIndex = 2;
+  return document.getElementById(PARENT_ID).appendChild(ele);
+}
+
+function createHiddenCanvas() {
+  let ele = document.createElement('canvas');
+  ele.setAttribute('id', `${PREFIX}-HiddenCanvas`);
+  ele.classList.add(`${PREFIX}-HiddenCanvas`);
+
+  ele = addCommonStyle(ele);
+  ele.style.zIndex = 2;
+  ele.style.display = 'none';
   return document.getElementById(PARENT_ID).appendChild(ele);
 }
 
