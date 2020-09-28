@@ -156,11 +156,12 @@ export class Combiner {
   /**
    * get Base64
    * @param {number} width Resizeing width
-   * @param {number*} height Resizeing height
+   * @param {number} height Resizeing height
+   * @param {string} type image/jpeg or image/png
    */
-  getBase64(width = null, height = null) {
+  getBase64(width = null, height = null, type = 'image/jpeg') {
     const promise = new Promise((resolve) => {
-      const base64 = this.canvasEle.toDataURL('image/jpeg');
+      const base64 = this.canvasEle.toDataURL(type);
 
       if (width === null || height === null) {
         // orignal size
@@ -191,7 +192,7 @@ export class Combiner {
           this.canvasEle.width * scale,
           this.canvasEle.height * scale
         );
-        resolve(this.hiddenCanvasEle.toDataURL('image/jpeg'));
+        resolve(this.hiddenCanvasEle.toDataURL(type));
       };
     });
     return promise;
