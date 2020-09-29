@@ -11,7 +11,7 @@ export class Img extends CanvasObject {
    * @param {scale} scale
    * @param {string} imagePath 画像パス
    */
-  constructor(ctx, x, y, imagePath) {
+  constructor(ctx, x, y, imagePath, width = null, height = null) {
     super(ctx, x, y, null, null);
 
     /**
@@ -29,8 +29,8 @@ export class Img extends CanvasObject {
     this.image.src = imagePath;
     this.image.onload = () => {
       this.isLoaded = true;
-      this.width = this.image.width * this.defaultScale;
-      this.height = this.image.height * this.defaultScale;
+      this.width = width ? width : this.image.width * this.defaultScale;
+      this.height = height ? height : this.image.height * this.defaultScale;
     };
 
     this.scaleInfo = {

@@ -11,8 +11,16 @@ export class Combiner {
    * @param {string} imagePath 画像パス
    * @param {number | null} imageX image x
    * @param {number | null} imageY image y
+   * @param {number | null} imageW image width
+   * @param {number | null} imageH image height
    */
-  constructor(imagePath, imageX = null, imageY = null) {
+  constructor(
+    imagePath,
+    imageX = null,
+    imageY = null,
+    imageW = null,
+    imageH = null
+  ) {
     /** @param {HTMLVideoElement} */
     this.videoEle;
     /** @param {HTMLCanvasElement} */
@@ -40,10 +48,10 @@ export class Combiner {
     /** @param {boolen} */
     this.isCombine = false;
 
-    this._init(imagePath, imageX, imageY);
+    this._init(imagePath, imageX, imageY, imageW, imageH);
   }
 
-  _init(imagePath, imageX, imageY) {
+  _init(imagePath, imageX, imageY, imageW, imageH) {
     // crate html elements
     const eles = createElement();
     this.videoEle = eles.videoEle;
@@ -60,8 +68,8 @@ export class Combiner {
     // image
     imageX = imageX ? imageX : this.width / 2;
     imageY = imageY ? imageY : this.height / 2;
-    this.img = new Img(this.ctx, imageX, imageY, imagePath);
-    this.img.optimizeSize(size.width, size.height);
+    this.img = new Img(this.ctx, imageX, imageY, imagePath, imageW, imageH);
+    // this.img.optimizeSize(size.width, size.height);
     this.imgAction = new ImgAction(this.canvasEle, this.img);
 
     // camera
