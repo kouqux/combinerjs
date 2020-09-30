@@ -100,6 +100,11 @@ export class Img extends CanvasObject {
     let offsetY = (this.height * this.scaleInfo.value) / 2;
 
     this.ctx.save();
+    // ギザギザが直るらしい
+    this.ctx.mozImageSmoothingEnabled = true;
+    this.ctx.webkitImageSmoothingEnabled = true;
+    this.ctx.msImageSmoothingEnabled = true;
+    this.ctx.imageSmoothingEnabled = true;
     // Angle
     this.ctx.translate(this.position.x, this.position.y);
     this.ctx.rotate((this.angle * Math.PI) / 180);
