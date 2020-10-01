@@ -68,7 +68,8 @@ export class Combiner {
     }
 
     // 親要素の横縦幅をセット
-    const size = this._setSize();
+    this._setSize(this.canvasEle);
+    this._setSize(this.hiddenCanvasEle);
 
     // image
     imageX = imageX ? imageX : this.width / 2;
@@ -85,14 +86,14 @@ export class Combiner {
   /**
    * set canvas size to parent element size.
    */
-  _setSize() {
+  _setSize(canvas) {
     const parentEle = document.getElementById(PARENT_ID);
-    this._setWidth(parentEle.clientWidth);
-    this._setHeight(parentEle.clientHeight);
-    console.log(Config.isHighResolution);
     if (Config.isHighResolution) {
-      this._setWidthOfHighResolutionDisplay();
-      this._setHeightOfHighResolutionDisplay();
+      this._setWidthOfHighResolutionDisplay(parentEle.clientWidth, canvas);
+      this._setHeightOfHighResolutionDisplay(parentEle.clientHeight, canvas);
+    } else {
+      this._setWidth(parentEle.clientWidth, canvas);
+      this._setHeight(parentEle.clientHeight, canvas);
     }
 
     return {
@@ -105,35 +106,35 @@ export class Combiner {
    * set canvas width
    * @param {number} width
    */
-  _setWidth(width) {
+  _setWidth(width, canvas) {
     this.width = width;
-    this.canvasEle.width = this.width;
+    canvas.width = this.width;
   }
   /**
    * set canvas height
    * @param {number} height
    */
-  _setHeight(height) {
+  _setHeight(height, canvas) {
     this.height = height;
-    this.canvasEle.height = this.height;
+    canvas.height = this.height;
   }
 
   /**
    * Retina Display
    */
-  _setWidthOfHighResolutionDisplay() {
-    this.canvasEle.width *= devicePixelRatio;
-    this.canvasEle.style.width =
-      String(this.canvasEle.width / devicePixelRatio) + 'px';
+  _setWidthOfHighResolutionDisplay(width, canvas) {
+    this.width = width * devicePixelRatio;
+    canvas.width = this.width;
+    canvas.style.width = String(this.width / devicePixelRatio) + 'px';
   }
 
   /**
    * Retina Display
    */
-  _setHeightOfHighResolutionDisplay() {
-    this.canvasEle.height *= devicePixelRatio;
-    this.canvasEle.style.height =
-      String(this.canvasEle.height / devicePixelRatio) + 'px';
+  _setHeightOfHighResolutionDisplay(height, canvas) {
+    this.height = height * devicePixelRatio;
+    canvas.height = this.height;
+    canvas.style.height = String(this.height / devicePixelRatio) + 'px';
   }
 
   /**
