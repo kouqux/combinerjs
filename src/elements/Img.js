@@ -1,5 +1,6 @@
 'use strict';
 
+import Config from '../config/Config';
 import { CanvasObject } from '../core/CanvasObject';
 
 export class Img extends CanvasObject {
@@ -169,7 +170,10 @@ export class Img extends CanvasObject {
    */
   drag(pageX, pageY) {
     if (!this.dragInfo.isDragging) return;
-
+    if (Config.isHighResolution) {
+      pageX *= devicePixelRatio;
+      pageY *= devicePixelRatio;
+    }
     this.update(this.dragInfo.startX + pageX, this.dragInfo.startY + pageY);
   }
 

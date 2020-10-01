@@ -1,3 +1,4 @@
+import Config from './config/Config';
 import { Img } from './elements/Img';
 import { Camera } from './elements/Camera';
 import { ImgAction } from './actions/ImgAction';
@@ -45,7 +46,7 @@ export class Combiner {
     /** @param {number} */
     this.height;
 
-    /** @param {boolen} */
+    /** @param {boolean} */
     this.isCombine = false;
 
     this._init(imagePath, imageX, imageY, imageW, imageH);
@@ -61,6 +62,10 @@ export class Combiner {
     this.hiddenCanvasEle = eles.hiddenCanvasEle;
     this.imgEle = eles.imgEle;
     this.ctx = this.canvasEle.getContext('2d');
+
+    if (window.devicePixelRatio) {
+      Config.setIsHighResolution(true);
+    }
 
     // 親要素の横縦幅をセット
     const size = this._setSize();
@@ -84,9 +89,15 @@ export class Combiner {
     const parentEle = document.getElementById(PARENT_ID);
     this._setWidth(parentEle.clientWidth);
     this._setHeight(parentEle.clientHeight);
+    console.log(Config.isHighResolution);
+    if (Config.isHighResolution) {
+      this._setWidthOfHighResolutionDisplay();
+      this._setHeightOfHighResolutionDisplay();
+    }
+
     return {
-      width: parentEle.clientWidth,
-      height: parentEle.clientHeight,
+      width: this.canvasEle.width,
+      height: this.canvasEle.height,
     };
   }
 
@@ -105,6 +116,24 @@ export class Combiner {
   _setHeight(height) {
     this.height = height;
     this.canvasEle.height = this.height;
+  }
+
+  /**
+   * Retina Display
+   */
+  _setWidthOfHighResolutionDisplay() {
+    this.canvasEle.width *= devicePixelRatio;
+    this.canvasEle.style.width =
+      String(this.canvasEle.width / devicePixelRatio) + 'px';
+  }
+
+  /**
+   * Retina Display
+   */
+  _setHeightOfHighResolutionDisplay() {
+    this.canvasEle.height *= devicePixelRatio;
+    this.canvasEle.style.height =
+      String(this.canvasEle.height / devicePixelRatio) + 'px';
   }
 
   /**
