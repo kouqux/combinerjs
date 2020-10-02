@@ -68,7 +68,8 @@ export class Combiner {
     }
 
     // 親要素の横縦幅をセット
-    const size = this._setSize();
+    this._setSize(this.canvasEle);
+    this._setSize(this.hiddenCanvasEle);
 
     // image
     imageX = imageX ? imageX : this.width / 2;
@@ -85,14 +86,14 @@ export class Combiner {
   /**
    * set canvas size to parent element size.
    */
-  _setSize() {
+  _setSize(canvas) {
     const parentEle = document.getElementById(PARENT_ID);
-    this._setWidth(parentEle.clientWidth);
-    this._setHeight(parentEle.clientHeight);
-    console.log(Config.isHighResolution);
     if (Config.isHighResolution) {
-      this._setWidthOfHighResolutionDisplay();
-      this._setHeightOfHighResolutionDisplay();
+      this._setWidthOfHighResolutionDisplay(parentEle.clientWidth, canvas);
+      this._setHeightOfHighResolutionDisplay(parentEle.clientHeight, canvas);
+    } else {
+      this._setWidth(parentEle.clientWidth, canvas);
+      this._setHeight(parentEle.clientHeight, canvas);
     }
 
     return {
@@ -105,35 +106,35 @@ export class Combiner {
    * set canvas width
    * @param {number} width
    */
-  _setWidth(width) {
+  _setWidth(width, canvas) {
     this.width = width;
-    this.canvasEle.width = this.width;
+    canvas.width = this.width;
   }
   /**
    * set canvas height
    * @param {number} height
    */
-  _setHeight(height) {
+  _setHeight(height, canvas) {
     this.height = height;
-    this.canvasEle.height = this.height;
+    canvas.height = this.height;
   }
 
   /**
-   * Retina Display
+   * set canvas width when retina display
    */
-  _setWidthOfHighResolutionDisplay() {
-    this.canvasEle.width *= devicePixelRatio;
-    this.canvasEle.style.width =
-      String(this.canvasEle.width / devicePixelRatio) + 'px';
+  _setWidthOfHighResolutionDisplay(width, canvas) {
+    this.width = width * devicePixelRatio;
+    canvas.width = this.width;
+    canvas.style.width = String(this.width / devicePixelRatio) + 'px';
   }
 
   /**
-   * Retina Display
+   * set canvas height when retina display
    */
-  _setHeightOfHighResolutionDisplay() {
-    this.canvasEle.height *= devicePixelRatio;
-    this.canvasEle.style.height =
-      String(this.canvasEle.height / devicePixelRatio) + 'px';
+  _setHeightOfHighResolutionDisplay(height, canvas) {
+    this.height = height * devicePixelRatio;
+    canvas.height = this.height;
+    canvas.style.height = String(this.height / devicePixelRatio) + 'px';
   }
 
   /**
@@ -183,8 +184,8 @@ export class Combiner {
   resize() {
     setTimeout(() => {
       // ラグがあるため
-      const size = this._setSize();
-      this.img.optimizeSize(size.width, size.height);
+      const size = this._setSize(this.canvasEle);
+      this._setSize(this.hiddenCanvasEle);
       this.camera.setWidth(size.width);
       this.camera.setHeight(size.height);
     }, 100);
@@ -198,7 +199,12 @@ export class Combiner {
    */
   getBase64(width = null, height = null, type = 'image/jpeg') {
     const promise = new Promise((resolve) => {
-      const base64 = this.canvasEle.toDataURL(type);
+      let base64 = '';
+      if (this.isCombine) {
+        base64 = this.imgEle.src;
+      } else {
+        base64 = this.canvasEle.toDataURL(type);
+      }
 
       if (width === null || height === null) {
         // orignal size
