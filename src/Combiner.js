@@ -120,7 +120,7 @@ export class Combiner {
   }
 
   /**
-   * Retina Display
+   * set canvas width when retina display
    */
   _setWidthOfHighResolutionDisplay(width, canvas) {
     this.width = width * devicePixelRatio;
@@ -129,7 +129,7 @@ export class Combiner {
   }
 
   /**
-   * Retina Display
+   * set canvas height when retina display
    */
   _setHeightOfHighResolutionDisplay(height, canvas) {
     this.height = height * devicePixelRatio;
@@ -184,8 +184,8 @@ export class Combiner {
   resize() {
     setTimeout(() => {
       // ラグがあるため
-      const size = this._setSize();
-      this.img.optimizeSize(size.width, size.height);
+      const size = this._setSize(this.canvasEle);
+      this._setSize(this.hiddenCanvasEle);
       this.camera.setWidth(size.width);
       this.camera.setHeight(size.height);
     }, 100);
@@ -199,7 +199,12 @@ export class Combiner {
    */
   getBase64(width = null, height = null, type = 'image/jpeg') {
     const promise = new Promise((resolve) => {
-      const base64 = this.canvasEle.toDataURL(type);
+      let base64 = '';
+      if (this.isCombine) {
+        base64 = this.imgEle.src;
+      } else {
+        base64 = this.canvasEle.toDataURL(type);
+      }
 
       if (width === null || height === null) {
         // orignal size
