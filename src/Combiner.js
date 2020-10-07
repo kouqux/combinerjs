@@ -72,11 +72,7 @@ export class Combiner {
     this._setSize(this.hiddenCanvasEle);
 
     // image
-    imageX = imageX ? imageX : this.width / 2;
-    imageY = imageY ? imageY : this.height / 2;
-    this.img = new Img(this.ctx, imageX, imageY, imagePath, imageW, imageH);
-    // this.img.optimizeSize(size.width, size.height);
-    this.imgAction = new ImgAction(this.canvasEle, this.img);
+    this._setImage(imagePath, imageX, imageY, imageW, imageH);
 
     // camera
     this.camera = new Camera(this.ctx, this.width, this.height, this.videoEle);
@@ -135,6 +131,28 @@ export class Combiner {
     this.height = height * devicePixelRatio;
     canvas.height = this.height;
     canvas.style.height = String(this.height / devicePixelRatio) + 'px';
+  }
+
+  /**
+   * Image set
+   * @param {string} imagePath
+   * @param {number} imageX
+   * @param {number} imageY
+   * @param {number} imageW
+   * @param {number} imageH
+   */
+  _setImage(
+    imagePath,
+    imageX = null,
+    imageY = null,
+    imageW = null,
+    imageH = null
+  ) {
+    // image
+    imageX = imageX ? imageX : this.width / 2;
+    imageY = imageY ? imageY : this.height / 2;
+    this.img = new Img(this.ctx, imageX, imageY, imagePath, imageW, imageH);
+    this.imgAction = new ImgAction(this.canvasEle, this.img);
   }
 
   /**
@@ -239,5 +257,23 @@ export class Combiner {
       };
     });
     return promise;
+  }
+
+  /**
+   * image reset
+   * @param {string} imagePath
+   * @param {number} imageX
+   * @param {number} imageY
+   * @param {number} imageW
+   * @param {number} imageH
+   */
+  resetImage(
+    imagePath,
+    imageX = null,
+    imageY = null,
+    imageW = null,
+    imageH = null
+  ) {
+    this._setImage(imagePath, imageX, imageY, imageW, imageH);
   }
 }
