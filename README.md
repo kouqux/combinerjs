@@ -34,4 +34,6 @@ Create a composite image
 ```
 
 ## DEMO
- [GitHub Pages](https://suhrr.github.io/combinerjs/)
+ [GitHub Pages](https://suhrr.github.io/combinerjs/)  
+![demo](https://github.com/suhrr/combinerjs/blob/master/docs/assets/img/demo.jpg)
+
