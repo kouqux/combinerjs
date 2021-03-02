@@ -25,7 +25,7 @@ window.onload = function () {
   }
 
   /**
-   * update canvas
+   * update the canvas
    */
   function _update() {
     if (!isLoaded) return;
@@ -36,14 +36,14 @@ window.onload = function () {
   actionBtn.addEventListener('click', () => {
     if (!isLoaded) return;
     if (actionBtn.getAttribute('data-isShoot') == '0') {
-      // Combining photo and video
+      // do combining photo and video
       combiner.combine();
 
       changeBtn.style.display = 'none';
       actionBtn.setAttribute('data-isShoot', 1);
       actionBtn.textContent = 'prev';
     } else {
-      // cancel a combining
+      // cancel combining
       combiner.cancel();
 
       changeBtn.style.display = 'inline-block';
@@ -57,6 +57,7 @@ window.onload = function () {
     // Switching cameras
     isLoaded = false;
     isFrontCamera = !isFrontCamera;
+    combiner.destory();
     init();
   });
 
