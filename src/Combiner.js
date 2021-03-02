@@ -22,6 +22,8 @@ export class Combiner {
     imageW = null,
     imageH = null
   ) {
+    /** @param {HTMLDivElement} */
+    this.areaEle;
     /** @param {HTMLVideoElement} */
     this.videoEle;
     /** @param {HTMLCanvasElement} */
@@ -55,6 +57,7 @@ export class Combiner {
   _init(imagePath, imageX, imageY, imageW, imageH) {
     // crate html elements
     const eles = createElement();
+    this.areaEle = eles.areaEle;
     this.videoEle = eles.videoEle;
     this.canvasEle = eles.canvasEle;
     this.canvasEle.width = eles.areaEle.clientWidth;
@@ -80,7 +83,7 @@ export class Combiner {
   }
 
   /**
-   * set canvas size to parent element size.
+   * set the canvas size to parent element size.
    */
   _setSize(canvas) {
     const parentEle = document.getElementById(PARENT_ID);
@@ -99,7 +102,7 @@ export class Combiner {
   }
 
   /**
-   * set canvas width
+   * set the canvas width
    * @param {number} width
    */
   _setWidth(width, canvas) {
@@ -107,7 +110,7 @@ export class Combiner {
     canvas.width = this.width;
   }
   /**
-   * set canvas height
+   * set the canvas height
    * @param {number} height
    */
   _setHeight(height, canvas) {
@@ -116,7 +119,7 @@ export class Combiner {
   }
 
   /**
-   * set canvas width when retina display
+   * set the canvas width when retina display
    */
   _setWidthOfHighResolutionDisplay(width, canvas) {
     this.width = width * devicePixelRatio;
@@ -125,7 +128,7 @@ export class Combiner {
   }
 
   /**
-   * set canvas height when retina display
+   * set the canvas height when retina display
    */
   _setHeightOfHighResolutionDisplay(height, canvas) {
     this.height = height * devicePixelRatio;
@@ -134,7 +137,7 @@ export class Combiner {
   }
 
   /**
-   * Image set
+   * set the image
    * @param {string} imagePath
    * @param {number} imageX
    * @param {number} imageY
@@ -170,7 +173,7 @@ export class Combiner {
   }
 
   /**
-   * update canvas
+   * update the canvas
    */
   update() {
     if (this.isCombine) return;
@@ -191,7 +194,7 @@ export class Combiner {
   }
 
   /**
-   * cancel combine
+   * cancel the combine
    */
   cancel() {
     this.imgEle.style.display = 'none';
@@ -260,7 +263,7 @@ export class Combiner {
   }
 
   /**
-   * image reset
+   * reset the image
    * @param {string} imagePath
    * @param {number} imageX
    * @param {number} imageY
@@ -275,5 +278,16 @@ export class Combiner {
     imageH = null
   ) {
     this._setImage(imagePath, imageX, imageY, imageW, imageH);
+  }
+
+  /**
+   * destory combinerjs elements
+   */
+  destory() {
+    this.areaEle.remove();
+    this.videoEle.remove();
+    this.canvasEle.remove();
+    this.hiddenCanvasEle.remove();
+    this.imgEle.remove();
   }
 }
