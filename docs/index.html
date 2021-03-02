@@ -4,11 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="./assets/css/style.css" >
   <title>Combiner DEMO</title>
 </head>
 <body>
   <main>
+    <div class="modal-wrapper" id="modal">
+      <div class="modal-container">
+        <div class="modal" id="modalContent">
+          <img src="./assets/img/qr.png" alt="QR">
+          <div class="modal-text">Please access with your smartphone.</div>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <section>
         <div class="combiner" id="combiner"></div>
@@ -22,5 +31,6 @@
   </main>
   <script src="./combiner.js"></script>
   <script src="./assets/js/index.js"></script>
+  <script src="./assets/js/modal.js"></script>
 </body>
 </html>

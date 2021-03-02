@@ -10,11 +10,10 @@
     "webrtc-adapter": "^7.7.0"
   },
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
-    "build-dev": "webpack --config webpack.dev.js",
     "start": "webpack-dev-server --hot --inline --watch-content-base --content-base docs/ --open-page index.html --config webpack.dev.js",
     "deploy": "npm run build && gh-pages -d docs",
+    "build": "webpack --config webpack.prod.js",
+    "build-dev": "webpack --config webpack.dev.js",
     "test": "jest"
   },
   "env": {
